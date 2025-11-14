@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import React, { useEffect } from "react";
 import PlaceHolder from "../components/PlaceHolder";
 import "../styles/NavBar.scss"

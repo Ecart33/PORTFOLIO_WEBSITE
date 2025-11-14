@@ -2,8 +2,6 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import cloudflareLogo from './assets/Cloudflare_Logo.svg'
-import Test from './components/test'
-import TraceBlack from './pages/TraceBlack'
 import './App.css'
 
 function App() {
