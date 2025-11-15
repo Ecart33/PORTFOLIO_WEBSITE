@@ -1,6 +1,6 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
+
 import React, { useRef, useState, lazy } from "react";
+const Slideshow = lazy(() => (import("./Slideshow")));
 import "../styles/NavBar.scss"
 import { useSpring, useSprings, animated, SpringValue, type AnimationResult, type Lookup, config } from '@react-spring/web'
 
@@ -8,7 +8,7 @@ import { useSpring, useSprings, animated, SpringValue, type AnimationResult, typ
 
 //const closeSlideshow
 
-const NavBar: React.FC = () => {
+const NavBar: React.FC<{imagePaths: string[]}>  = ({imagePaths}) => {
 
     const [medium, setMedium] = useState("")
     const [slideBelow, setSlideBelow] = useState(true)
@@ -69,19 +69,6 @@ const NavBar: React.FC = () => {
             )
         })
 
-    const imagePaths = [
-        "portfolio_images/DSCF3588.JPEG",
-        "portfolio_images/esme.jpeg",
-        "portfolio_images/IMG_0666.jpeg",
-        "portfolio_images/IMG_1082.jpg",
-        "portfolio_images/IMG_1611.jpg",
-        "portfolio_images/IMG_1767.jpg",
-        "portfolio_images/IMG_4978.jpeg",
-        "portfolio_images/IMG_0466.jpeg",
-        "portfolio_images/IMG_7650.jpeg",
-        "portfolio_images/IMG_9359.jpeg",
-        "portfolio_images/IMG_9788.jpeg"
-        ]
     const SwitchMedium = (index: number) => {
         console.log("switch")
         //close the open medium

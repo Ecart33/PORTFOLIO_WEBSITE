@@ -1,10 +1,12 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
+
 import React, { useEffect } from "react";
+import Slideshow from '../components/Slideshow'
+import NavBar from "../components/NavBar";
 import PlaceHolder from "../components/PlaceHolder";
 import "../styles/NavBar.scss"
 import { BrowserView, MobileView, isBrowser, isMobile } from 'react-device-detect';
 
+// import { useSpring, useSprings, animated, SpringValue, AnimationResult, Lookup, config } from '@react-spring/web'
 
 
 
@@ -67,22 +69,22 @@ const TraceBlack: React.FC = () => {
     }, [])
     return (
         <div style={{width: "100%"}}>
-            <h1 className="TraceBlackHeader">Trace Black (yeah this is a placeholder i gotta finish this) </h1>
-            <BrowserView>
+            <h1 className="TraceBlackHeader">Trace Black (yeah this is a placeholder i gotta finish) </h1>
+            <img src="portfolio_images/TRACEBanner.jpg"></img> 
+            {/* <BrowserView>
                 <PlaceHolder images={imagePaths}/>
             </BrowserView>
             <MobileView>
                 <PlaceHolder images={imagePaths}/>
-            </MobileView>
+            </MobileView> */}
             
-            {/* <h1 className="test">test</h1>
-            <animated.div className="slideShowWrapper" style={{height: "250px"}}>
+            {/* <animated.div className="slideShowWrapper" style={{height: "250px"}}>
             <Slideshow images={imagePaths} offsetHeight={200}/>
-            </animated.div> */}
-{/*             {imagePaths.map((image) => (
+            </animated.div>  */}
+            <NavBar imagePaths={imagePaths} ></NavBar>
+             {/* {imagePaths.map((image) => (
                 <animated.img src={image}></animated.img>
-            ))}
-            <h1 className="sandwhich">sandwhich</h1> */}
+            ))} */}
         </div>
     )
 }

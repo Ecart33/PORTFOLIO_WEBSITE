@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
+
 import React, { useRef, useState, useEffect } from "react";
 import styled from 'styled-components';
 import "../styles/Slideshow.scss"
@@ -14,7 +13,8 @@ const Slideshow: React.FC<{
     const [centerImage, setCenterImage] = useState<string[]>(images)
     const [imageWidths, setImageWidths] = useState<number[]>([])
     //console.log(0)
-    const [centerIndex, setCenterIndex] = useState(3)
+    const [centerIndex, setCenterIndex] = useState(Math.floor(images.length/2))
+    const enabled = useRef(true)
     const centerPadding = 6.5
     const gapPadding = 10
     const imageWidthRefs = images.map(() => useRef(null))
@@ -25,6 +25,7 @@ const Slideshow: React.FC<{
 
     const rest = (x: AnimationResult<SpringValue<Lookup<any>>>) => {
         setCenterIndex((centerIndex) => centerIndex+=x.value.direction)
+        enabled.current = true
         console.log('state change')
     }
 
@@ -44,7 +45,6 @@ const Slideshow: React.FC<{
             tension: 95,
         },  */
         reset: true,
-        onChange: (x) => console.log(x.value.x)
         //onRest: (x) => rest(x),
     }))
 
@@ -63,7 +63,6 @@ const Slideshow: React.FC<{
             tension: 95,
         },  */
         reset: true,
-        onChange: (x) => console.log(x.value.x)
         //onRest: (x) => rest(x),
     }))
     
@@ -128,8 +127,20 @@ const Slideshow: React.FC<{
     const handleClick = (direction: number) => {
         // change index of images -1
         //one side of 50 (imageWidths[centerIndex+direction]
-        console.log(imageWidths[centerIndex]/2-imageWidths[centerIndex-1]/2)
-        console.log(imageWidths[centerIndex-1]-(imageWidths[centerIndex]/2-imageWidths[centerIndex-1]/2))
+        console.log("center index " + centerIndex + " direction " + direction)
+        if (!enabled.current) {
+            return
+        }
+        
+        if (centerIndex==images.length-1 && direction == 1) {
+            return
+        }
+        if (centerIndex==0 && direction == -1) {
+            console.log('escaped')
+            return
+        }
+        enabled.current = false
+        console.log(enabled.current)
         rightSideApi.start({
             from : {
                 x: `${0}`,
@@ -215,7 +226,6 @@ const Slideshow: React.FC<{
     //passed a type of medium for
     
     useEffect(() => {
-        console.log(imageWidthRefs.map((widths) => Math.floor(widths.current.naturalWidth*widths.current.offsetHeight/widths.current.naturalHeight)))
         setImageWidths(() => imageWidthRefs.map((widths) => Math.floor(widths.current.naturalWidth*offsetHeight/widths.current.naturalHeight)))
     }, [])
     useEffect(() => {
