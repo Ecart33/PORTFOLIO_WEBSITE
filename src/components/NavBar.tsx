@@ -1,4 +1,5 @@
-
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import React, { useRef, useState, lazy, useEffect } from "react";
 const Slideshow = lazy(() => (import("./Slideshow")));
 import "../styles/NavBar.scss"
@@ -25,7 +26,26 @@ const NavBar: React.FC<{imagePaths: string[]}>  = ({imagePaths}) => {
 
     console.log("render")
 
-    const closeMedium = (x: AnimationResult<SpringValue<Lookup<any>>>) => {
+    // const closeMedium = (x: AnimationResult<SpringValue<Lookup<any>>>) => {
+
+
+    //     //when the current medium finishes opening, set its height to 100 and re render with itself as the current open medium 
+    //     //when the previous medium closes, set its height to zero
+        
+    //     x.value.height === `${offsetHeight}px` ?  (() => {
+    //         //console.log("medium opened")
+    //         setOpenMedium(x.value.index)
+    //         mediumHeights[x.value.index].current = 100
+    //     })() : 
+    //     (() => {
+    //         console.log("medium closed")
+    //         mediumHeights[x.value.index].current = 0
+    //     })()
+    // }
+
+
+
+    const closeMedium = (index) => {
 
 
         //when the current medium finishes opening, set its height to 100 and re render with itself as the current open medium 
@@ -41,6 +61,7 @@ const NavBar: React.FC<{imagePaths: string[]}>  = ({imagePaths}) => {
             mediumHeights[x.value.index].current = 0
         })()
     }
+
 
     const [navbarSpring, navbarApi] = useSpring(() => ({
         from: {
@@ -59,23 +80,43 @@ const NavBar: React.FC<{imagePaths: string[]}>  = ({imagePaths}) => {
                     index: index,
                     from: {
                     height: `${mediumHeights[index].current}px`,
-                    left: "0%"
+                    left: "0%",
+                    opacity: "100%"
                     },
                     config: {
                         mass: 1.2,
                         friction: 20,
                         tension: 115,
-                    },
-                    onRest: (x) => closeMedium(x),
-                    onChange: (x) => console.log(x.value.height)
+                    }
                     })
                 )
             )
         })
 
     const SwitchMedium = (index: number) => {
-        console.log(enabled)
-        if (!enabled.current || index == openMedium) {
+        console.log(openMedium)
+        if (!enabled.current) {
+            return
+        }
+        if (index == openMedium) {
+            mediumSprings[openMedium][1].start(
+            {
+                from: {
+                    height: `${offsetHeight}px`,
+                    opacity: "100%",
+                    //left: "0%"
+                },
+                to: {
+                    height: "0px",
+                    opacity: "0%"
+                    //left: "50%"
+                },
+                onRest: () => { 
+                    setOpenMedium(-1)
+                    enabled.current = true 
+                }
+            }
+            ) 
             return
         }
 
@@ -87,10 +128,12 @@ const NavBar: React.FC<{imagePaths: string[]}>  = ({imagePaths}) => {
             {
                 from: {
                     height: `${offsetHeight}px`,
+                    opacity: "100%",
                     //left: "0%"
                 },
                 to: {
                     height: "0px",
+                    opacity: "0%"
                     //left: "50%"
                 },
                 onRest: () => { 
@@ -104,13 +147,18 @@ const NavBar: React.FC<{imagePaths: string[]}>  = ({imagePaths}) => {
         mediumSprings[index][1].start(
             {
                 from: {
-                    height: "0px"
+                    height: "0px",
+                    opacity: "100%"
                 },
                 to: {
-                    height: `${offsetHeight}px`
+                    height: `${offsetHeight}px`,
+                    opacity: "100%"
                 },
-                onRest: () => { 
-                    enabled.current = true 
+                onRest: (x) => { 
+                    enabled.current = true
+                    mediumHeights[index].current = 100
+                    setOpenMedium(index)
+            
                 }
             }
         )
