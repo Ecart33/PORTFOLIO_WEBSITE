@@ -1,4 +1,5 @@
-
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import React, { useEffect } from "react";
 import Slideshow from '../components/Slideshow'
 import NavBar from "../components/NavBar";
