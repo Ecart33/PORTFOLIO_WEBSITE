@@ -3,6 +3,7 @@
     position: relative;
     height: 100%;
     gap: 25px;
+    object-fit: fill;
 }
 
 .centerImage {
@@ -55,6 +56,12 @@
     height: 100%;
     width: 35vw;
 }
+
+.leftMask:hover {
+    cursor: wi;
+    cursor: url("godscursor32.svg"), auto;//w-resize;
+}
+
 .rightMask {
     position: absolute;
     z-index: 1;
@@ -64,9 +71,13 @@
     height: 100%;
     width: 35vw;
 }
+
+.rightMask:hover {
+    cursor: e-resize;
+}
     
 img {
-    max-width: 100%;
+    //max-width: 100%;
     height: 100%;
     //transition-property: height;
     //transition-duration: 500ms;

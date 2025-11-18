@@ -1,8 +1,9 @@
 
-import React, { useRef, useState, lazy } from "react";
+import React, { useRef, useState, lazy, useEffect } from "react";
 const Slideshow = lazy(() => (import("./Slideshow")));
 import "../styles/NavBar.scss"
 import { useSpring, useSprings, animated, SpringValue, type AnimationResult, type Lookup, config } from '@react-spring/web'
+import PreloadImageDimensions from "./PreloadImageDimensions";
 
 
 
@@ -19,6 +20,8 @@ const NavBar: React.FC<{imagePaths: string[]}>  = ({imagePaths}) => {
         return (useRef(0))
     })
     const navbarSize = useRef(5)
+    const enabled = useRef(true)
+    const imageDimensions = PreloadImageDimensions(imagePaths)
 
     console.log("render")
 
@@ -56,11 +59,12 @@ const NavBar: React.FC<{imagePaths: string[]}>  = ({imagePaths}) => {
                     index: index,
                     from: {
                     height: `${mediumHeights[index].current}px`,
+                    left: "0%"
                     },
                     config: {
                         mass: 1.2,
                         friction: 20,
-                        tension: 95,
+                        tension: 115,
                     },
                     onRest: (x) => closeMedium(x),
                     onChange: (x) => console.log(x.value.height)
@@ -70,17 +74,27 @@ const NavBar: React.FC<{imagePaths: string[]}>  = ({imagePaths}) => {
         })
 
     const SwitchMedium = (index: number) => {
-        console.log("switch")
+        console.log(enabled)
+        if (!enabled.current || index == openMedium) {
+            return
+        }
+
+        enabled.current = false
         //close the open medium
 
 
         openMedium > -1 ? mediumSprings[openMedium][1].start(
             {
                 from: {
-                    height: `${offsetHeight}px`
+                    height: `${offsetHeight}px`,
+                    //left: "0%"
                 },
                 to: {
-                    height: "0px"
+                    height: "0px",
+                    //left: "50%"
+                },
+                onRest: () => { 
+                    enabled.current = true 
                 }
             }
         ) : "" 
@@ -94,6 +108,9 @@ const NavBar: React.FC<{imagePaths: string[]}>  = ({imagePaths}) => {
                 },
                 to: {
                     height: `${offsetHeight}px`
+                },
+                onRest: () => { 
+                    enabled.current = true 
                 }
             }
         )
@@ -106,11 +123,15 @@ const NavBar: React.FC<{imagePaths: string[]}>  = ({imagePaths}) => {
                 },
                 to: {
                     fontSize: "2vw"
+                },
+                onRest: () => { 
+                    enabled.current = true 
                 }
             }
         )
         navbarSize.current = 2
     }
+
 
      return (
         <div className="navBar">

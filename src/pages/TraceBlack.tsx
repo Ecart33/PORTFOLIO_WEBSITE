@@ -69,8 +69,8 @@ const TraceBlack: React.FC = () => {
     }, [])
     return (
         <div style={{width: "100%"}}>
-            <h1 className="TraceBlackHeader">Trace Black (yeah this is a placeholder i gotta finish) </h1>
-            <img src="portfolio_images/TRACEBanner.jpg"></img> 
+            {/* <h1 className="TraceBlackHeader">Trace Black (yeah this is a placeholder i gotta finish) </h1>
+            <img src="portfolio_images/TRACEBanner.jpg"></img>  */}
             {/* <BrowserView>
                 <PlaceHolder images={imagePaths}/>
             </BrowserView>

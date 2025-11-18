@@ -1,8 +1,10 @@
-
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import React, { useRef, useState, useEffect } from "react";
 import styled from 'styled-components';
 import "../styles/Slideshow.scss"
 import { useSpring, useSprings, animated, SpringValue, type AnimationResult, type Lookup, config } from '@react-spring/web'
+import PreloadImageDimensions from "./PreloadImageDimensions";
 
 
 const Slideshow: React.FC<{
@@ -11,13 +13,21 @@ const Slideshow: React.FC<{
     }>  = ({images, offsetHeight}) => {
 
     const [centerImage, setCenterImage] = useState<string[]>(images)
-    const [imageWidths, setImageWidths] = useState<number[]>([])
+    //const [imageWidths, setImageWidths] = useState([])//useState<number[]>([])
+
+
+    const imageDimensions = PreloadImageDimensions(images)
+
+    const imageWidths =  imageDimensions.map((i) => i.width/i.height*offsetHeight)
+
+
     //console.log(0)
     const [centerIndex, setCenterIndex] = useState(Math.floor(images.length/2))
     const enabled = useRef(true)
     const centerPadding = 6.5
     const gapPadding = 10
     const imageWidthRefs = images.map(() => useRef(null))
+    
 
     console.log("render")
     //console.log(centerIndex)
@@ -220,13 +230,30 @@ const Slideshow: React.FC<{
     so we have a set jump between the left and the center
     and the rest of them 
     */
+
+
+
+
+    // const customCursor = (event: any) => {
+    //     event.clientX, event.clientY
+    // }
+
+
+
+
+
+
+
+
     
 
 
     //passed a type of medium for
     
     useEffect(() => {
-        setImageWidths(() => imageWidthRefs.map((widths) => Math.floor(widths.current.naturalWidth*offsetHeight/widths.current.naturalHeight)))
+        //const imageDimensions = PreloadImageDimensions(images)
+        //setImageWidths(imageDimensions)
+        //setImageWidths(() => imageWidthRefs.map((widths) => Math.floor(widths.current.naturalWidth*offsetHeight/widths.current.naturalHeight)))
     }, [])
     useEffect(() => {
     }, [window.innerWidth])
@@ -242,33 +269,34 @@ const Slideshow: React.FC<{
                             index == centerIndex ? 
                                 {
                                 left: `calc(50vw - ${imageWidths[index]/2}px)`,
+                                width: imageWidths[index],
                                 ...centerSpring
                                 } :
                             (index == centerIndex - 1 ? 
                                 {
                                 left: `calc(50vw - ${imageWidths[centerIndex-1]+imageWidths[centerIndex]/2}px - ${window.innerWidth/centerPadding}px)`,
-                        
+                                width: imageWidths[index],
                                 ...leftSpring
                                 } :
                             (index == centerIndex + 1 ? 
                                 {
                                 left: `calc(50vw + ${imageWidths[centerIndex]/2}px + ${window.innerWidth/centerPadding}px)`,
-                        
+                                width: imageWidths[index],
                                 ...rightSpring
                                 } :
                             (index < centerIndex - 1 ?
                                 {
                                 left: `calc(50vw - ${imageWidths.slice(index, centerIndex).reduce((a, c) => a+ c, 0)+((centerIndex-index-1)*window.innerWidth/gapPadding)+imageWidths[centerIndex]/2}px - ${window.innerWidth/centerPadding}px)`,
-                                
+                                width: imageWidths[index],
                                 ...leftSideSpring
                                 } :
                             (index > centerIndex + 1 ?
                                 {
                                 left: `calc(50vw + ${imageWidths.slice(centerIndex+1,index).reduce((a, c) => a+ c, 0)+((index-centerIndex-1)*window.innerWidth/gapPadding)+imageWidths[centerIndex]/2}px + ${window.innerWidth/centerPadding}px)`,
-                                
+                                width: imageWidths[index],
                                 ...rightSideSpring
                                 } :
-                               "")))) 
+                               ""))))
                         } className = {
                             index == centerIndex ? "centerImage" :
                             (index == centerIndex - 1 ? "leftImage" :
@@ -281,10 +309,10 @@ const Slideshow: React.FC<{
 
 
                 ))}
-            <div className="leftMask"></div> 
-                <div className="rightMask"></div>
-            <img className="leftButton" src="xbox_x_button.jpeg" onClick={() => handleClick(-1)}></img>
-            <img className="rightButton" src="xbox_b_button.jpeg" onClick={() => handleClick(1)}></img>
+            <div className="leftMask" onClick={() => handleClick(-1)}></div> 
+            <div className="rightMask" onClick={() => handleClick(1)}></div>
+            {/* <img className="leftButton" src="xbox_x_button.jpeg" onClick={() => handleClick(-1)}></img>
+            <img className="rightButton" src="xbox_b_button.jpeg" onClick={() => handleClick(1)}></img> */}
             </div>            
         </div>
     )
