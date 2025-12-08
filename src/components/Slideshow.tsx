@@ -46,13 +46,13 @@ const Slideshow: React.FC<{
         padding: "0",
         config: {
             mass: 1.2,
-            friction: 20,
-            tension: 95,
+            friction: 12,
+            tension: 90,
         },
         /* config: {
             mass: 1.2,
-            friction: 20,
-            tension: 95,
+            friction: 12,
+            tension: 90,
         },  */
         reset: true,
         //onRest: (x) => rest(x),
@@ -64,13 +64,13 @@ const Slideshow: React.FC<{
         padding: "0",
         config: {
             mass: 1.2,
-            friction: 20,
-            tension: 95,
+            friction: 12,
+            tension: 90,
         },
         /* config: {
             mass: 1.2,
-            friction: 20,
-            tension: 95,
+            friction: 12,
+            tension: 90,
         },  */
         reset: true,
         //onRest: (x) => rest(x),
@@ -82,13 +82,13 @@ const Slideshow: React.FC<{
         padding: "0",
         config: {
             mass: 1.2,
-            friction: 20,
-            tension: 95,
+            friction: 12,
+            tension: 90,
         },
         /* config: {
             mass: 1.2,
-            friction: 20,
-            tension: 95,
+            friction: 12,
+            tension: 90,
         },  */
         reset: true,
         onStart: (x) => console.log("start"),
@@ -100,13 +100,13 @@ const Slideshow: React.FC<{
         padding: "0",
         config: {
             mass: 1.2,
-            friction: 20,
-            tension: 95,
+            friction: 12,
+            tension: 90,
         },
         /* config: {
             mass: 1.2,
-            friction: 20,
-            tension: 95,
+            friction: 12,
+            tension: 90,
         },  */
         reset: true,
         //onChange: (x) => console.log(x.value.x)
@@ -119,13 +119,13 @@ const Slideshow: React.FC<{
         padding: "0",
         config: {
             mass: 1.2,
-            friction: 20,
-            tension: 95,
+            friction: 12,
+            tension: 90,
         },
         /* config: {
             mass: 1.2,
-            friction: 20,
-            tension: 95,
+            friction: 12,
+            tension: 90,
         },  */
         reset: true,
         onRest: (x) => rest(x),

@@ -5,17 +5,23 @@ const Slideshow = lazy(() => (import("./Slideshow")));
 import "../styles/NavBar.scss"
 import { useSpring, useSprings, animated, SpringValue, type AnimationResult, type Lookup, config } from '@react-spring/web'
 import PreloadImageDimensions from "./PreloadImageDimensions";
+const fs = require('fs');
 
 
 
 //const closeSlideshow
 
-const NavBar: React.FC<{imagePaths: string[]}>  = ({imagePaths}) => {
+const NavBar = () => {
 
     const [medium, setMedium] = useState("")
     const [slideBelow, setSlideBelow] = useState(true)
     const [openMedium, setOpenMedium] = useState<number>(-1)
     const mediums = ["paint", "paper", "tattoo", "cv", "bio"]
+    const paint = fs.readdirSync('publc/portfolio_images/paint')
+    const paper = fs.readdirSync('public/portfolio_images/paper')
+    const tattoo = fs.readdirSync('public.portfolio_images/tattoo')
+    const imagePaths = [paint, paper, tattoo, [], []]
+
     const offsetHeight = 300
     const mediumHeights = mediums.map((medium, index) => {
         return (useRef(0))
@@ -81,8 +87,7 @@ const NavBar: React.FC<{imagePaths: string[]}>  = ({imagePaths}) => {
                     from: {
                     height: `${mediumHeights[index].current}px`,
                     left: "0%",
-                    opacity: "100%"
-                    },
+                    opacity: "100%",                    },
                     config: {
                         mass: 1.2,
                         friction: 20,
@@ -103,7 +108,7 @@ const NavBar: React.FC<{imagePaths: string[]}>  = ({imagePaths}) => {
             {
                 from: {
                     height: `${offsetHeight}px`,
-                    opacity: "100%",
+                    opacity: "100%"
                     //left: "0%"
                 },
                 to: {
@@ -117,6 +122,7 @@ const NavBar: React.FC<{imagePaths: string[]}>  = ({imagePaths}) => {
                 }
             }
             ) 
+            enabled.current = false
             return
         }
 
@@ -148,11 +154,11 @@ const NavBar: React.FC<{imagePaths: string[]}>  = ({imagePaths}) => {
             {
                 from: {
                     height: "0px",
-                    opacity: "100%"
+                    opacity: "100%",
                 },
                 to: {
                     height: `${offsetHeight}px`,
-                    opacity: "100%"
+                    opacity: "100%",
                 },
                 onRest: (x) => { 
                     enabled.current = true
@@ -186,7 +192,13 @@ const NavBar: React.FC<{imagePaths: string[]}>  = ({imagePaths}) => {
             {mediums.map((m: string, index: number) => (
                 <>
                     <animated.h1 className={m} style={{...navbarSpring}} onClick={() => SwitchMedium(index)}>{m}</animated.h1>
-                    <animated.div style = {mediumSprings[index][0]} className="slideShowWrapper">
+                    <animated.div style = { 
+                        index == openMedium ? 
+                            {  
+                                marginTop: "auto",
+                                ...mediumSprings[index][0]
+                            } : mediumSprings[index][0]
+                            }  className="slideShowWrapper">
                         <Slideshow images={imagePaths} offsetHeight={offsetHeight}/>
                     </animated.div>
                 </>

@@ -1,11 +1,11 @@
 h1:hover {
     cursor: pointer;
-    max-width: fit-content;
+    // max-width: fit-content;
     justify-self: center;
 }
 
 h1 {
-    margin-block-start: 0.7em;
+    margin-block-start: 0em;
     margin-block-end: 0em;
     margin-inline-start: 0px;
     margin-inline-end: 0px;
@@ -18,4 +18,12 @@ h1 {
 
 .slideShowWrapper {
     position: relative;
+}
+
+.navBar {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: flex-start;
+    flex-grow: 1;
 }

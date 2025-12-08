@@ -82,7 +82,7 @@ const TraceBlack: React.FC = () => {
             {/* <animated.div className="slideShowWrapper" style={{height: "250px"}}>
             <Slideshow images={imagePaths} offsetHeight={200}/>
             </animated.div>  */}
-            <NavBar imagePaths={imagePaths} ></NavBar>
+            <NavBar></NavBar>
              {/* {imagePaths.map((image) => (
                 <animated.img src={image}></animated.img>
             ))} */}
